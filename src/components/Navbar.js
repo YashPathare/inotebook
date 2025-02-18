@@ -1,6 +1,14 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {Link} from 'react-router-dom';
+
+
+  // React.useEffect(() => {
+  //   // Google Analytics
+  //   console.log(location);
+  // }, [location]);
+
 const Navbar = () => {
+  // let location = useLocation()
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
   <div className="container-fluid">
