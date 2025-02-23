@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
 
-function Alert() {
+function Alert(props) {
   return (
     <div>
-      
+      <div class="alert alert-light" role="alert">
+        {props.message}
+      </div>
     </div>
-  )
+  );
 }
 
-export default Alert
+export default Alert;
