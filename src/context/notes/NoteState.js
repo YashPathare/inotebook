@@ -2,72 +2,23 @@ import noteContext from "./noteContext";
 import { useState } from "react";
 const NoteState=(props)=>{
   const host ="http://localhost:5000"
-    const notesInitial=[
-        {
-          "_id": "67adcf782b26a4901b2150deb",
-          "user": "67a87954bae747ee7bc6ab3d",
-          "title": "My Title",
-          "description": "You are doing great.",
-          "tag": "personal",
-          "date": "2025-02-13T10:54:48.601Z",
-          "__v": 0
-        },
-        {
-          "_id": "67avdd01f2b264901b2150dee",
-          "user": "67a87954bae747ee7bc6ab3d",
-          "title": "New Note",
-          "description": "Keep Going",
-          "tag": "motivational",
-          "date": "2025-02-13T10:57:35.756Z",
-          "__v": 0
-        },
-        {
-          "_id": "67add01f2nb264901b2150dee",
-          "user": "67a87954bae747ee7bc6ab3d",
-          "title": "New Note",
-          "description": "Keep Going",
-          "tag": "motivational",
-          "date": "2025-02-13T10:57:35.756Z",
-          "__v": 0
-        },
-        {
-          "_id": "67add0e1f2b264901b2150dee",
-          "user": "67a87954bae747ee7bc6ab3d",
-          "title": "New Note",
-          "description": "Keep Going",
-          "tag": "motivational",
-          "date": "2025-02-13T10:57:35.756Z",
-          "__v": 0
-        },
-        {
-          "_id": "67add01f2b26490,1b2150dee",
-          "user": "67a87954bae747ee7bc6ab3d",
-          "title": "New Note",
-          "description": "Keep Going",
-          "tag": "motivational",
-          "date": "2025-02-13T10:57:35.756Z",
-          "__v": 0
-        },
-        {
-          "_id": "67add01f2bb264901b2150dee",
-          "user": "67a87954bae747ee7bc6ab3d",
-          "title": "New Note",
-          "description": "Keep Going",
-          "tag": "motivational",
-          "date": "2025-02-13T10:57:35.756Z",
-          "__v": 0
-        },
-        {
-          "_id": "67add01f2b264901b2150dyee",
-          "user": "67a87954bae747ee7bc6ab3d",
-          "title": "New Note",
-          "description": "Keep Going",
-          "tag": "motivational",
-          "date": "2025-02-13T10:57:35.756Z",
-          "__v": 0
-        }
-      ]
+    const notesInitial=[]
       const [notes, setNotes] = useState(notesInitial)
+
+       //Get all Notes
+       const getNotes=async ()=>{
+        //API Call
+        const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+               "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdhODc5NTRiYWU3NDdlZTdiYzZhYjNkIn0sImlhdCI6MTczOTE4NTI5M30.bG-zO6kNAl82LDQKvgUZXDUTKik3yz-kD_cK5oRTefM"
+            },
+        });
+        const json =await response.json();
+        console.log(json)  
+        setNotes(json)
+      }
 
       //Add a Note
       const addNote=async (title,description,tag)=>{
@@ -97,8 +48,18 @@ const NoteState=(props)=>{
       }
 
       //Delete a Note
-      const deleteNote=(id)=>{
-        //TODO: API Call
+      const deleteNote= async(id)=>{
+        //API Call
+        const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+          method: "DELETE",
+          headers: {
+              "Content-Type": "application/json",
+               "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdhODc5NTRiYWU3NDdlZTdiYzZhYjNkIn0sImlhdCI6MTczOTE4NTI5M30.bG-zO6kNAl82LDQKvgUZXDUTKik3yz-kD_cK5oRTefM"
+            }
+        });
+      const json =  response.json(); 
+      console.log(json)
+      
         console.log("Deleting the note with id:"+id);
         const newNotes=notes.filter((note)=>{return note._id!==id})
         setNotes(newNotes)
@@ -113,10 +74,8 @@ const NoteState=(props)=>{
               "Content-Type": "application/json",
                "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjdhODc5NTRiYWU3NDdlZTdiYzZhYjNkIn0sImlhdCI6MTczOTE4NTI5M30.bG-zO6kNAl82LDQKvgUZXDUTKik3yz-kD_cK5oRTefM"
             },
-          //   body: JSON.stringify({title, description, tag}),
           body: JSON.stringify({title,description,tag})
         });
-      //   const response = await fetch(request);
       const json =  response.json(); 
         //Logic to edit in client
         for (let index = 0; index < notes.length; index++) {
@@ -131,7 +90,7 @@ const NoteState=(props)=>{
       }
 
     return(
-        <noteContext.Provider value={{notes,addNote,deleteNote,editNote}}>
+        <noteContext.Provider value={{notes,addNote,deleteNote,editNote,getNotes}}>
             {props.children}
         </noteContext.Provider>
     )
