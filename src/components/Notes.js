@@ -11,14 +11,17 @@ function Notes() {
     // eslint-disable-next-line
   }, []);
 
-  const updateNote = (note) => {
+  const updateNote = (currentNote) => {
     ref.current.click();
+    setNote({id:currentNote._id,etitle:currentNote.title, edescription:currentNote.description,etag:currentNote.tag})
   };
   const ref = useRef(null);
-    const [note, setNote] = useState({title: "", description:"",tag:"default"})
+  const refClose = useRef(null);
+  const [note, setNote] = useState({id:"",etitle: "", edescription:"",etag:"default"})
 
   const handleClick=(e)=>{
-    e.preventDefault();    
+    console.log("Updating the Note:",note)
+    refClose.current.click();   
   }
   const onChange =(e) =>{
     setNote({...note,[e.target.name]:e.target.value}) 
@@ -30,7 +33,7 @@ function Notes() {
 
       <button
         type="button"
-        class="btn btn-dark"
+        className="btn btn-dark d-none"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
         ref={ref}
@@ -39,26 +42,26 @@ function Notes() {
       </button>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
                 Edit Note
               </h1>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <form>
                 <div className="mb-3">
                   <label htmlFor="title" className="form-label">
@@ -71,6 +74,7 @@ function Notes() {
                     name="etitle"
                     aria-describedby="emailHelp"
                     onChange={onChange}
+                    value={note.etitle}
                   />
                 </div>
                 <div className="mb-3">
@@ -83,6 +87,7 @@ function Notes() {
                     id="edescription"
                     name="edescription"
                     onChange={onChange}
+                    value={note.edescription}
                   />
                 </div>
                 <div className="mb-3">
@@ -95,19 +100,21 @@ function Notes() {
                     id="etag"
                     name="etag"
                     onChange={onChange}
+                    value={note.etag}
                   />
                 </div>
               </form>
             </div>
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 data-bs-dismiss="modal"
+                ref={refClose}
               >
                 Close
               </button>
-              <button type="button" class="btn btn-secondary">
+              <button onClick={handleClick} type="button" className="btn btn-secondary">
                 Update Note
               </button>
             </div>
