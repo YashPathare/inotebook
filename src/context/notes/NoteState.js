@@ -1,5 +1,6 @@
 import noteContext from "./noteContext";
 import { useState } from "react";
+
 const NoteState=(props)=>{
   const host ="http://localhost:5000"
     const notesInitial=[]
@@ -17,7 +18,7 @@ const NoteState=(props)=>{
         });
         const json =await response.json();
         console.log(json)  
-        setNotes(json)
+        setNotes(json);
       }
 
       //Add a Note
@@ -37,7 +38,7 @@ const NoteState=(props)=>{
       console.log(json)
         console.log("Adding a new note")
         const note = {
-          "_id": "67add01f2ba264901b2150dyee",
+          "_id": "67add01f2ba264901b2150dy",
           "user": "67a87954bae747ee7bc6ab3d",
           "title": title,
           "description": description,
@@ -77,18 +78,23 @@ const NoteState=(props)=>{
             },
           body: JSON.stringify({title,description,tag})
         });
-      const json =  response.json(); 
+      const json = await response.json(); 
       console.log(json)
+
+      let newNotes=JSON.parse(JSON.stringify(notes))
         //Logic to edit in client
-        for (let index = 0; index < notes.length; index++) {
-          const element = notes[index];
+        for (let index = 0; index < newNotes.length; index++) {
+          const element = newNotes[index];
           if (element._id === id)
           {
-            element.title=title;
-            element.description=description;
-            element.tag=tag;
+            newNotes[index].title=title;
+            newNotes[index].description=description;
+            newNotes[index].tag=tag;
+            break;
           }
         }  
+        console.log(id,notes);
+        setNotes(newNotes);
       }
 
     return(
