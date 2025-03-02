@@ -21,7 +21,6 @@ function Notes() {
   const [note, setNote] = useState({id:"",etitle: "", edescription:"",etag:"default"})
 
   const handleClick=(e)=>{
-    console.log("Updating the Note:",note)
     editNote(note.id,note.etitle,note.edescription,note.etag)
     refClose.current.click();   
   }
@@ -77,6 +76,8 @@ function Notes() {
                     aria-describedby="emailHelp"
                     onChange={onChange}
                     value={note.etitle}
+                    minLength={5}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -90,6 +91,8 @@ function Notes() {
                     name="edescription"
                     onChange={onChange}
                     value={note.edescription}
+                    minLength={5}
+                    required
                   />
                 </div>
                 <div className="mb-3">
@@ -116,7 +119,7 @@ function Notes() {
               >
                 Close
               </button>
-              <button onClick={handleClick} type="button" className="btn btn-secondary">
+              <button onClick={handleClick} type="button" className="btn btn-secondary" disabled={note.etitle.length<5 || note.edescription.length<5}>
                 Update Note
               </button>
             </div>
@@ -126,6 +129,9 @@ function Notes() {
 
       <div className="row my-3">
         <h2>Your notes</h2>
+        <div className="container">
+          {notes.length===0 && 'No Notes to display'}
+        </div>
         {notes.map((note) => {
           return (
             <NoteItem key={note._id} updateNote={updateNote} note={note} />
