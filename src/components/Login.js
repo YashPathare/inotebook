@@ -18,12 +18,12 @@ function Login(props) {
           if (json.success){
             //Save the auth token and redirect  
             localStorage.setItem('token',json.authtoken);
+            props.showAlert("Logged In Successfully","primary") 
             navigate("/");
-            props.showAlert("Logged In Successfully","primary") //3
           }
           else
           {
-            props.showAlert("Invalid Credentials","secondary") //4
+            props.showAlert("Invalid Credentials","secondary") 
           }
     }
 
