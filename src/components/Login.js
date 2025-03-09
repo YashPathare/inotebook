@@ -14,19 +14,19 @@ function Login(props) {
             },
             body: JSON.stringify({email:credentials.email,password:credentials.password}),
         });
-          const json =await response.json()
-          console.log(json);
-          if (json.success){
+        const json =await response.json()
+        console.log(json);
+        if (json.success){
             //Save the auth token and redirect  
             localStorage.setItem('token',json.authtoken);
             console.log("Token received from backend:", json.authtoken);
             props.showAlert("Logged In Successfully","primary") 
             navigate("/");
-          }
-          else
-          {
+        }
+        else
+        {
             props.showAlert("Invalid Credentials","secondary") 
-          }
+        }
     }
 
     const onChange =(e) =>{
@@ -34,7 +34,9 @@ function Login(props) {
     }
 
   return (
-    <div>
+    <div className='mt-3'>
+        <h2>
+            Login to continue to QuickNotes</h2>
         <form onSubmit={handleSubmit}>
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">

@@ -12,9 +12,9 @@ router.post('/createUser',[
     body('name','Enter a valid name.').isLength({ min: 2 }),
     body('password','Password must be atleast 5 characters').isLength({ min: 5 }),
     body('email','Enter a valid email.').isEmail(),
-],async(req,res)=>{
-  let success= false;
-  // If there are errors return Bad request and the errors
+  ],async(req,res)=>{
+    let success= false;
+    // If there are errors return Bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) 
     {
@@ -52,17 +52,17 @@ router.post('/createUser',[
     {
       console.error(error.message); 
       res.status(500).send("Internal Server Error");
-    }
-    
-})
+    } 
+  }
+)
 
 // Route 2: Authenticate a User using: POST "/api/auth/login". No login required
 router.post('/login',[
   body('email','Enter a valid email.').isEmail(),
   body('password','Password cannot be blank.').exists(),
 ],async(req,res)=>{
-  let success= false
-  // If there are errors return Bad request and the errors
+    let success= false
+    // If there are errors return Bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) 
     {
@@ -94,18 +94,22 @@ router.post('/login',[
       console.error(error.message); 
       res.status(500).send("Internal Server Error");     
     }
-});
+  }
+);
 
 // Route 3: Get loggedin User Details using: POST "/api/auth/getuser". login required
 router.post('/getUser',fetchUser,async(req,res)=>{    //fetchUser is a MIDDLEWARE
-try {
-  userId=req.user.id;
-  const user=await User.findById(userId).select("-password")
-  res.send(user) 
-} catch (error) {
-  console.error(error.message); 
-  res.status(500).send("Internal Server Error");
-}
+  try 
+  {
+    userId=req.user.id;
+    const user=await User.findById(userId).select("-password")
+    res.send(user) 
+  } 
+  catch (error) 
+  {
+    console.error(error.message); 
+    res.status(500).send("Internal Server Error");
+  }
 })
 
 module.exports=router
