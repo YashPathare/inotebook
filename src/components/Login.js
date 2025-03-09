@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 function Login(props) {
     const [credentials, setCredentials] = useState({email:"",password:""})
     let navigate = useNavigate();
+    
     const handleSubmit= async (e)=>{
         e.preventDefault();
         const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -18,6 +19,7 @@ function Login(props) {
           if (json.success){
             //Save the auth token and redirect  
             localStorage.setItem('token',json.authtoken);
+            console.log("Token received from backend:", json.authtoken);
             props.showAlert("Logged In Successfully","primary") 
             navigate("/");
           }

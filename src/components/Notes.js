@@ -10,6 +10,8 @@ function Notes(props) {
   let navigate = useNavigate();
 
   useEffect(() => {
+    console.log("HI")
+    console.log(localStorage.getItem('token'))
     if(localStorage.getItem('token')){
       getNotes()
     }
@@ -17,7 +19,7 @@ function Notes(props) {
     {
       navigate("/login");
     }
-  },[getNotes,navigate]);
+  },[]);
 
   const updateNote = (currentNote) => {
     ref.current.click();
